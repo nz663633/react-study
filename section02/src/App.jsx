@@ -9,7 +9,6 @@ function App() { // 부모 컴포넌트(root 컴포넌트)
       <Header />
       <Main />
       <Footer />
-      <h1>안녕 리액트!</h1>
     </>
   );
 };
