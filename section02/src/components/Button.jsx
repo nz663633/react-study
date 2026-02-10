@@ -1,6 +1,6 @@
 const Button = ({ children, text, color = "black" }) => { // props 구조 분해 할당
     // 이벤트 객체
-    const onClickButton = (e) => {
+    const onClickButton = (e) => { // e는 SyntheticEvent(브라우저 이벤트 X)
         console.log(e);
         console.log(text);
     };
