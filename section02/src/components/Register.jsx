@@ -15,6 +15,14 @@ const Register = () => {
         bio: ""
     });
 
+    const onChange = (e) => {
+        console.log(e.target.name, e.target.value);
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        });
+    };
+
     const onChangeName = (e) => {
         setInput({
             ...input, // birth, country, bio 값을 변경하지 않고 그대로 유지시킴
@@ -22,46 +30,30 @@ const Register = () => {
         });
     };
 
-    const onChangeBirth = (e) => {
-        setInput({
-            ...input,
-            birth: e.target.value
-        });
-    };
-
-    const onChangeCountry = (e) => {
-        setInput({
-            ...input,
-            country: e.target.value
-        });
-    };
-
-    const onChangeBio = (e) => {
-        setInput({
-            ...input,
-            bio: e.target.value
-        });
-    };
-
     return (
         <div>
             <div>
                 <input
+                    name="name"
                     value={input.name}
-                    onChange={onChangeName}
+                    onChange={onChange}
                     placeholder="이름"
                 />
             </div>
 
             <div>
                 <input
+                    name="birth"
                     value={input.birth}
-                    onChange={onChangeBirth}
+                    onChange={onChange}
                     type="date" />
             </div>
 
             <div>
-                <select value={input.country} onChange={onChangeCountry}>
+                <select
+                    name="country"
+                    value={input.country}
+                    onChange={onChange}>
                     <option></option>
                     <option>한국</option>
                     <option>미국</option>
@@ -70,7 +62,10 @@ const Register = () => {
             </div>
 
             <div>
-                <textarea value={input.bio} onChange={onChangeBio} />
+                <textarea
+                    name="bio"
+                    value={input.bio}
+                    onChange={onChange} />
             </div>
         </div>
     );
