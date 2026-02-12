@@ -7,32 +7,47 @@ import { useState } from "react";
 // 4. 자기소개
 
 const Register = () => {
-    const [name, setName] = useState("이름");
-    const [birth, setBirth] = useState("");
-    const [country, setCountry] = useState("");
-    const [bio, setBio] = useState("");
+
+    const [input, setInput] = useState({
+        name: "",
+        birth: "",
+        country: "",
+        bio: ""
+    });
 
     const onChangeName = (e) => {
-        setName(e.target.value); // -> 값을 name에 저장
+        setInput({
+            ...input, // birth, country, bio 값을 변경하지 않고 그대로 유지시킴
+            name: e.target.value // 변경하고자 하는 값
+        });
     };
 
     const onChangeBirth = (e) => {
-        setBirth(e.target.value);
+        setInput({
+            ...input,
+            birth: e.target.value
+        });
     };
 
     const onChangeCountry = (e) => {
-        setCountry(e.target.value);
+        setInput({
+            ...input,
+            country: e.target.value
+        });
     };
 
     const onChangeBio = (e) => {
-        setBio(e.target.value);
+        setInput({
+            ...input,
+            bio: e.target.value
+        });
     };
 
     return (
         <div>
             <div>
                 <input
-                    value={name}
+                    value={input.name}
                     onChange={onChangeName}
                     placeholder="이름"
                 />
@@ -40,13 +55,13 @@ const Register = () => {
 
             <div>
                 <input
-                    value={birth}
+                    value={input.birth}
                     onChange={onChangeBirth}
                     type="date" />
             </div>
 
             <div>
-                <select value={country} onChange={onChangeCountry}>
+                <select value={input.country} onChange={onChangeCountry}>
                     <option></option>
                     <option>한국</option>
                     <option>미국</option>
@@ -55,8 +70,7 @@ const Register = () => {
             </div>
 
             <div>
-                <textarea value={bio} onChange={onChangeBio}/>
-                {bio}
+                <textarea value={input.bio} onChange={onChangeBio} />
             </div>
         </div>
     );
