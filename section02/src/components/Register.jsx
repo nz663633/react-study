@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+// useState: 값이 바뀌면 리렌더링
+// useRef: 값을 저장하는 객체(값이 바뀌어도 리렌더링 X)
 
 // 간단한 회원가입 폼
 // 1. 이름
@@ -14,9 +16,14 @@ const Register = () => {
         country: "",
         bio: ""
     });
+    const countRef = useRef(0); // 렌더링되더라도 값 유지
+    const inputRef = useRef(); 
+
+    // let count = 0; -> 렌더링될 때마다 초기화 됨
 
     const onChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        countRef.current++;
+        console.log(countRef.current); // 브라우저에서의 수정 횟수 기록하기
         setInput({
             ...input,
             [e.target.name]: e.target.value
@@ -30,10 +37,18 @@ const Register = () => {
         });
     };
 
+    const onSubmit = () => {
+        if (input.name === "") {
+            // 이름을 입력하는 DOM 요소에 포커스
+            inputRef.current.focus();
+        }
+    }
+
     return (
         <div>
             <div>
                 <input
+                    ref={inputRef}
                     name="name"
                     value={input.name}
                     onChange={onChange}
@@ -67,6 +82,8 @@ const Register = () => {
                     value={input.bio}
                     onChange={onChange} />
             </div>
+
+            <button onClick={onSubmit}>제출</button>
         </div>
     );
 };
