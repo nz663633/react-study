@@ -1,16 +1,30 @@
 import './App.css'
 import Viewer from './components/Viewer'
 import Controller from './components/Controller'
-import { useState, useEffect } from 'react'
+import Even from './components/Even'
+import { useState, useEffect, useRef } from 'react'
 // useEffect: 컴포넌트 내부에서 값이 변경되었을 때 원하는 동작을 수행하도록 함
 
 function App() {
   const [count, setCount] = useState(0);
   const [input, setInput] = useState("");
 
-  useEffect(() => { // 두번째 인수로 전달한 count 또는 input 값이 바뀔 때마다 콜백함수(첫번째 인수) 실행
-    console.log(`count: ${count} / input: ${input}`);
-  }, [count, input]); // 의존성 배열 deps (dependency array)
+  const isMount = useRef(false);
+
+  // 1. 마운트: 탄생
+  useEffect(() => { // 최초로 딱 한 번만 실행
+    console.log("mount")
+  }, []); // 빈 배열 = 처음 렌더링(마운트) 때만 실행
+
+  // 2. 업데이트: 변화, 리렌더링
+  useEffect(() => {
+    if(!isMount.current) {
+      isMount.current = true;
+      return;
+    }
+    console.log("update");
+  })
+  // 3. 언마운트: 죽음
 
   const onClickButton = (value) => {
     setCount(count + value);
@@ -26,6 +40,7 @@ function App() {
       </section>
       <section>
         <Viewer count={count} />
+        {count % 2 === 0 ? <Even /> : null}
       </section>
       <section>
         <Controller onClickButton={onClickButton} />
