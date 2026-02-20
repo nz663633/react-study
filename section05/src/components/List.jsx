@@ -2,7 +2,7 @@ import "./List.css";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 
-const List = ({ todos, onUpdate }) => {
+const List = ({ todos, onUpdate, onDelete }) => {
 
     const [search, setSearch] = useState("");
     // search -> 현재 입력창에 들어있는 값
@@ -37,6 +37,7 @@ const List = ({ todos, onUpdate }) => {
                         <TodoItem key={todo.id}
                             {...todo}
                             onUpdate={onUpdate}
+                            onDelete={onDelete}
                         />
                     ); // 객체를 펼쳐서 각각의 props에 전달
                     // <TodoItem todo={todo}/> -> 객체 자체를 통째로 하나의 props에 전달
