@@ -2,7 +2,7 @@ import "./List.css";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 
-const List = ({ todos }) => {
+const List = ({ todos, onUpdate }) => {
 
     const [search, setSearch] = useState("");
     // search -> 현재 입력창에 들어있는 값
@@ -33,7 +33,12 @@ const List = ({ todos }) => {
                 placeholder="검색어를 입력하세요."></input>
             <div className="todos_wrapper">
                 {filteredTodos.map((todo) => { // 필터링된 Todos의 객체에 대하여
-                    return <TodoItem key={todo.id} {...todo} /> // 객체를 펼쳐서 각각의 props에 전달
+                    return (
+                        <TodoItem key={todo.id}
+                            {...todo}
+                            onUpdate={onUpdate}
+                        />
+                    ); // 객체를 펼쳐서 각각의 props에 전달
                     // <TodoItem todo={todo}/> -> 객체 자체를 통째로 하나의 props에 전달
                 })}
             </div>
