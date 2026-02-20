@@ -26,7 +26,7 @@ const mockData = [
 ];
 
 function App() {
-  const [todos, setTodos] = useState(mockData);
+  const [todos, setTodos]  = useState(mockData);
   const idRef = useRef(3); // 컴포넌트가 리렌더링되어도 값이 유지됨(다음 todo의 id 값을 저장하기 위해 사용)
 
   const onCreate = (content) => { // 새로운 todoItem을 객체형태로 생성
@@ -44,7 +44,7 @@ function App() {
     <div className='App'>
       <Header />
       <Editor onCreate={onCreate} />
-      <List />
+      <List todos={todos}/>
     </div>
   )
 }
