@@ -25,9 +25,31 @@ const List = ({ todos, onUpdate, onDelete }) => {
 
     const filteredTodos = getFilteredData(); // 컴포넌트가 리렌더링될때마다 호출(함수를 실행해서 결과를 변수에 저장)
 
+    const getAnalyzedData = () => {
+        console.log("getAnalyzedData 호출")
+        const totalCount = todos.length; // 현재 todos 배열의 전체 길이 -> 전체 할 일 개수
+        const doneCount = todos.filter((todo) => // todos 배열 중 isDone이 true인 요소만 필터링 -> 완료된 할 일 개수
+            todo.isDone).length;
+        const notDoneCount = totalCount - doneCount;
+
+        return {
+            totalCount,
+            doneCount,
+            notDoneCount
+        };
+    };
+
+    // todos 상태가 바뀌어 리렌더링될 때마다 getAnalyzedData()도 매번 다시 실행(번거로움)
+    const { totalCount, doneCount, notDoneCount } = getAnalyzedData()
+
     return (
         <div className="List">
             <h4>Todo List🌱</h4>
+            <div>
+                <div>total: {totalCount}</div>
+                <div>done: {doneCount}</div>
+                <div>notDone: {notDoneCount}</div>
+            </div>
             <input value={search}
                 onChange={onChangeSearch}
                 placeholder="검색어를 입력하세요."></input>
