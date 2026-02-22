@@ -1,6 +1,6 @@
 import "./List.css";
 import TodoItem from "./TodoItem";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const List = ({ todos, onUpdate, onDelete }) => {
 
@@ -25,22 +25,25 @@ const List = ({ todos, onUpdate, onDelete }) => {
 
     const filteredTodos = getFilteredData(); // 컴포넌트가 리렌더링될때마다 호출(함수를 실행해서 결과를 변수에 저장)
 
-    const getAnalyzedData = () => {
-        console.log("getAnalyzedData 호출")
-        const totalCount = todos.length; // 현재 todos 배열의 전체 길이 -> 전체 할 일 개수
-        const doneCount = todos.filter((todo) => // todos 배열 중 isDone이 true인 요소만 필터링 -> 완료된 할 일 개수
-            todo.isDone).length;
-        const notDoneCount = totalCount - doneCount;
+    const { totalCount, doneCount, notDoneCount } =
+        useMemo(() => {
+            console.log("getAnalyzedData 호출")
+            const totalCount = todos.length; // 현재 todos 배열의 전체 길이 -> 전체 할 일 개수
+            const doneCount = todos.filter((todo) => // todos 배열 중 isDone이 true인 요소만 필터링 -> 완료된 할 일 개수
+                todo.isDone).length;
+            const notDoneCount = totalCount - doneCount;
 
-        return {
-            totalCount,
-            doneCount,
-            notDoneCount
-        };
-    };
-
-    // todos 상태가 바뀌어 리렌더링될 때마다 getAnalyzedData()도 매번 다시 실행(번거로움)
-    const { totalCount, doneCount, notDoneCount } = getAnalyzedData()
+            return {
+                totalCount,
+                doneCount,
+                notDoneCount
+            };
+        }, [todos]);
+    // 두 번째 인수: 의존성 배열 deps
+    // 의존성 배열에 들어있는 값의 참조값이 바뀌면 useMemo가 실행됨
+    // CREATE처럼 새 배열을 생성하거나,
+    // UPDATE, DELETE처럼 map, filter를 사용해 새 배열을 반환할 때 useMemo가 실행됨
+    // search(검색어를 입력할 때)는 todos 배열에 변화가 없으므로 useMemo 실행되지 않음
 
     return (
         <div className="List">
