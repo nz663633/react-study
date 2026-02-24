@@ -53,8 +53,9 @@ function reducer(state, action) {
   }
 }
 
-// 원래 리액트 데이터는 오직 부모 -> 자식
-// Context 객체는 중간 단계를 건너뛰고 누구나 접근할 수 있는 데이터 저장소를 만듦
+/* State와 Dispatch를 분리하는 이유:
+  todos(상태)가 변경되어 TodoStateContext가 리렌더링을 유발해도,
+  변하지 않는 함수들을 담은 TodoDispatchContext는 리렌더링을 발생시키지 않기 위함 */
 export const TodoStateContext = createContext(); // 변화할 값
 export const TodoDispatchContext = createContext(); // 변화하지 않을 값
 
@@ -106,6 +107,11 @@ function App() {
       <TodoStateContext.Provider value={todos}>
         <TodoDispatchContext.Provider
           value={memoizedDispatch}
+          /*
+          value={onCreate, onDelete, onUpdate}
+          -> useMemo를 안 썼을 때 App이 리렌더링될 때마다
+          value={onCreate, ...}이 새로 만들어짐
+          */
         >
           <Editor />
           <List />
