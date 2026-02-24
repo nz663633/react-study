@@ -4,7 +4,8 @@ import {
   useRef,
   useReducer,
   useCallback,
-  createContext
+  createContext,
+  useMemo
 } from "react";
 import Header from './components/Header'
 import Editor from './components/Editor'
@@ -54,7 +55,8 @@ function reducer(state, action) {
 
 // 원래 리액트 데이터는 오직 부모 -> 자식
 // Context 객체는 중간 단계를 건너뛰고 누구나 접근할 수 있는 데이터 저장소를 만듦
-export const TodoContext = createContext();
+export const TodoStateContext = createContext(); // 변화할 값
+export const TodoDispatchContext = createContext(); // 변화하지 않을 값
 
 function App() {
   const [todos, dispatch] = useReducer(reducer, mockData);
@@ -91,20 +93,24 @@ function App() {
     });
   }, []);
 
+  // 불필요한 리렌더링을 막아서 최적화하기 위함
+  const memoizedDispatch = useMemo(() => {
+    return {
+      onCreate, onDelete, onUpdate
+    }
+  }, []);
+
   return (
     <div className='App'>
       <Header />
-      <TodoContext.Provider
-        value={{
-          todos,
-          onCreate,
-          onUpdate,
-          onDelete
-        }}
-      >
-      <Editor />
-      <List />
-    </TodoContext.Provider>
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider
+          value={memoizedDispatch}
+        >
+          <Editor />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   )
 }

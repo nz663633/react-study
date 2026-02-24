@@ -1,12 +1,10 @@
 import "./List.css";
 import TodoItem from "./TodoItem";
 import { useState, useMemo, useContext } from "react";
-import { TodoContext } from "../App";
+import { TodoStateContext } from "../App";
 
 const List = () => {
-    const { todos } = useContext(TodoContext);
-    // useContext를 통해 필요한 데이터만 가져오기
-    // 부모로부터 props 받을 필요 X
+    const todos = useContext(TodoStateContext);
 
     const [search, setSearch] = useState("");
     // search -> 현재 입력창에 들어있는 값

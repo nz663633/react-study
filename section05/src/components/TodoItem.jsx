@@ -1,11 +1,9 @@
 import "./TodoItem.css";
 import { memo, useContext } from "react";
-import { TodoContext } from "../App";
+import { TodoDispatchContext } from "../App";
 
 const TodoItem = ({ id, isDone, content, date }) => {
-    const { onUpdate, onDelete } = useContext(TodoContext);
-    // useContext를 통해 필요한 데이터만 가져오기
-    // 부모로부터 props 받을 필요 X
+    const { onUpdate, onDelete } = useContext(TodoDispatchContext);
 
     const onChangeCheckbox = () => {
         onUpdate(id);
