@@ -1,5 +1,11 @@
 import './App.css'
-import { useState, useRef, useReducer, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useReducer,
+  useCallback,
+  createContext
+} from "react";
 import Header from './components/Header'
 import Editor from './components/Editor'
 import List from './components/List'
@@ -46,11 +52,15 @@ function reducer(state, action) {
   }
 }
 
+// 원래 리액트 데이터는 오직 부모 -> 자식
+// Context 객체는 중간 단계를 건너뛰고 누구나 접근할 수 있는 데이터 저장소를 만듦
+export const TodoContext = createContext();
+
 function App() {
   const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3); // 컴포넌트가 리렌더링되어도 값이 유지됨(다음 todo의 id 값을 저장하기 위해 사용)
 
-  
+
   // mount되었을 때 한 번만 생성
   // 리렌더링이 되어도 생성되지 않도록 최적화
   // 최적화는 기능 구현을 완료하고 난 뒤 마지막에!
@@ -84,11 +94,17 @@ function App() {
   return (
     <div className='App'>
       <Header />
-      <Editor onCreate={onCreate} />
-      <List
-        todos={todos}
-        onUpdate={onUpdate}
-        onDelete={onDelete} />
+      <TodoContext.Provider
+        value={{
+          todos,
+          onCreate,
+          onUpdate,
+          onDelete
+        }}
+      >
+      <Editor />
+      <List />
+    </TodoContext.Provider>
     </div>
   )
 }

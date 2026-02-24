@@ -1,8 +1,12 @@
 import "./List.css";
 import TodoItem from "./TodoItem";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
+import { TodoContext } from "../App";
 
-const List = ({ todos, onUpdate, onDelete }) => {
+const List = () => {
+    const { todos } = useContext(TodoContext);
+    // useContext를 통해 필요한 데이터만 가져오기
+    // 부모로부터 props 받을 필요 X
 
     const [search, setSearch] = useState("");
     // search -> 현재 입력창에 들어있는 값
@@ -59,11 +63,7 @@ const List = ({ todos, onUpdate, onDelete }) => {
             <div className="todos_wrapper">
                 {filteredTodos.map((todo) => { // 필터링된 Todos의 객체에 대하여
                     return (
-                        <TodoItem key={todo.id}
-                            {...todo}
-                            onUpdate={onUpdate}
-                            onDelete={onDelete}
-                        />
+                        <TodoItem key={todo.id} {...todo} />
                     ); // 객체를 펼쳐서 각각의 props에 전달
                     // <TodoItem todo={todo}/> -> 객체 자체를 통째로 하나의 props에 전달
                 })}
