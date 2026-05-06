@@ -10,15 +10,21 @@ import Edit from './pages/Edit'
 const mockData = [
   {
     id: 1,
-    createdDate: new Date().getTime(),
+    createdDate: new Date("2026-05-06").getTime(),
     emotionId: 1,
     content: "1번 일기 내용"
   },
   {
     id: 2,
-    createdDate: new Date().getTime(),
+    createdDate: new Date("2026-05-05").getTime(),
     emotionId: 2,
     content: "2번 일기 내용"
+  },
+  {
+    id: 3,
+    createdDate: new Date("2026-04-01").getTime(),
+    emotionId: 3,
+    content: "3번 일기 내용"
   }
 ]
 
@@ -39,8 +45,8 @@ function reducer(state, action) {
 }
 
 // 모든 페이지에서 data값, onCreate, onUpdate, onDelete를 공급받게 함
-const DiaryStateContext = createContext();
-const DiaryDispatchContext = createContext();
+export const DiaryStateContext = createContext();
+export const DiaryDispatchContext = createContext();
 
 // 1. "/" : 모든 일기를 조회하는 Home 페이지
 // 2. "/new" : 새로운 일기를 작성하는 New 페이지
@@ -85,12 +91,12 @@ function App() {
 
   return (
     <>
-      <DiaryStateContext.Provider value={data} />
-      <DiaryDispatchContext value={{
+      <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider value={{
         onCreate,
         onUpdate,
         onDelete
-      }}/>
+      }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new" element={<New />} />
@@ -98,6 +104,8 @@ function App() {
         <Route path="*" element={<Notfound />} />
         <Route path="/edit/:id" element={<Edit />} />
       </Routes>
+    </DiaryDispatchContext.Provider>
+  </DiaryStateContext.Provider>
     </>
   );
 };
