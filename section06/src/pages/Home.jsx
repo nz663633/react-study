@@ -8,11 +8,11 @@ import DiaryList from "../components/DiaryList";
 const getMonthlyData = (pivotDate, data) => {
 
     const beginTime = new Date(
-        pivotDate.getFullYear(), 
-        pivotDate.getMonth(), 
-        1, 
-        0, 
-        0, 
+        pivotDate.getFullYear(),
+        pivotDate.getMonth(),
+        1,
+        0,
+        0,
         0
     ).getTime();
 
@@ -25,7 +25,7 @@ const getMonthlyData = (pivotDate, data) => {
         59
     ).getTime()
     return data.filter((item) =>
-        beginTime <= item.createdDate &&  item.createdDate <= endTime)
+        beginTime <= item.createdDate && item.createdDate <= endTime)
 }
 
 const Home = () => {
@@ -51,11 +51,11 @@ const Home = () => {
 
     return (
         <div>
-            <Header title={`${pivotDate.getFullYear()}년 ${pivotDate.getMonth()+1}월`}
+            <Header title={`${pivotDate.getFullYear()}년 ${pivotDate.getMonth() + 1}월`}
                 leftChild={<Button onClick={onDecreaseMonth} text={"<"} />}
                 rightChild={<Button onClick={onIncreaseMonth} text={">"} />}
             />
-            <DiaryList data={monthlyData}/>
+            <DiaryList data={monthlyData} />
         </div>
     );
 };
