@@ -1,4 +1,5 @@
 ## React Study
+---
 
 This repository is for learning React.
 
