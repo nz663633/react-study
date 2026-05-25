@@ -4,6 +4,7 @@ import { DiaryStateContext } from "../App";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import DiaryList from "../components/DiaryList";
+import usePageTitle from "../hooks/usePageTitle";
 
 const getMonthlyData = (pivotDate, data) => {
 
@@ -34,6 +35,8 @@ const Home = () => {
     // 날짜를 보관하는 pivotDate
     // js의 Date 객체는 월을 0부터 계산
     const [pivotDate, setPivotDate] = useState(new Date());
+
+    usePageTitle("감정 일기장");
 
     const monthlyData = getMonthlyData(pivotDate, data);
     console.log(monthlyData)
